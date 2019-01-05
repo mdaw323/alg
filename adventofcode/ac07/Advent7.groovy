@@ -1,5 +1,3 @@
-import com.sun.corba.se.spi.orbutil.threadpool.Work
-
 String input = '''Step X must be finished before step Q can begin.
 Step Y must be finished before step P can begin.
 Step U must be finished before step F can begin.
