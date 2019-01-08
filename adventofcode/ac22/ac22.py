@@ -1,10 +1,12 @@
-#xx = 11
-#yy = 722
-#depth = 10689
+from collections import defaultdict
+from heapq import heappush, heappop
 
-xx = 10
-yy = 10
-depth = 510
+xx = 11
+yy = 722
+depth = 10689
+
+mx = xx + 30
+my = yy + 30
 
 rocky = 0
 wet = 1
@@ -18,7 +20,7 @@ gear = 2
 V = dict()
 inf = 99999
 
-d = []
+d = defaultdict(lambda: inf, {})
 
 
 def eridx(x, y):
@@ -36,28 +38,15 @@ def eridx(x, y):
     return v
 
 
-def init():
-    d[0][0][torch] = 0
-
-
-sum = 0
-for i in range(xx+7):
-    for j in range(yy+7):
-        sum += eridx(i, j) % 3
-
 def terrain(u):
-    return V[u] % 3
+    return eridx(u[0], u[1]) % 3
 
-def switch_relax(x, y):
-    if terrain((x, y)) == rocky:
-        d[x][y][torch] = min(d[x][y][gear] + 7, d[x][y][torch])
-        d[x][y][gear] = min(d[x][y][torch] + 7, d[x][y][gear])
-    if terrain((x, y)) == wet:
-        d[x][y][neither] = min(d[x][y][gear] + 7, d[x][y][neither])
-        d[x][y][gear] = min(d[x][y][neither] + 7, d[x][y][gear])
-    if terrain((x, y)) == narrow:
-        d[x][y][torch] = min(d[x][y][neither] + 7, d[x][y][torch])
-        d[x][y][neither] = min(d[x][y][torch] + 7, d[x][y][neither])
+
+def switch_relax(x, y, e1, e2):
+    distance = d[(x, y, e1)] + 7
+    if distance < d[(x, y, e2)]:
+        d[(x, y, e2)] = distance
+        heappush(h, (d[(x, y, e2)], (x, y, e2)))
 
 
 def cost(u, v, e):
@@ -71,46 +60,39 @@ def cost(u, v, e):
         return 1
 
 
-def relax(u, v):
+def relax(u, v, e):
     ux, uy = u
     vx, vy = v
-    for e in (gear, torch, neither):
-        d[vx][vy][e] = min(d[vx][vy][e], cost(u, v, e) + d[ux][uy][e])
-        d[ux][uy][e] = min(d[ux][uy][e], cost(v, u, e) + d[vx][vy][e])
+    if ux < 0 or uy < 0 or vx < 0 or vy < 0 or ux > mx or uy > my or vx > mx or vy > my:
+        return
+    distance = cost(u, v, e) + d[(ux, uy, e)]
+    if d[(vx, vy, e)] > distance:
+        d[(vx, vy, e)] = distance
+        heappush(h, (d[(vx, vy, e)], (vx, vy, e)))
     return
 
+h = []
 
-def bf():
-    for i in range((xx+7) * (yy+7) * 3):        
-        for y in range(yy+7):
-            for x in range(xx):
-                relax((x, y), (x+1, y))
-                relax((x+1, y), (x, y))
-        for x in range(xx+7):
-            for y in range(yy):
-                relax((x, y), (x, y+1))
-                relax((x, y+1), (x, y))
-        for x in range(xx+7):
-            for y in range(yy+7):
-                switch_relax(x, y)
-        print (i,(xx+7) * (yy+7) * 3, d[xx][yy][torch])                
-
+def dijsktra(s):
+    d[s] = 0
+    heappush(h, (d[s], s))
+    while h:
+        _, v = heappop(h)
+        x, y, e = v
+        relax((x, y), (x+1, y), e)
+        relax((x, y), (x-1, y), e)
+        relax((x, y), (x, y+1), e)
+        relax((x, y), (x, y-1), e)
+        switch_relax(x, y, e, (e+1) % 3)
+        switch_relax(x, y, e, (e+2) % 3)
 
 
-for x in range (xx+7):
-    d.append([])
-    for y in range (yy+7):
-        d[x].append([])
-        for e in range(3):
-            d[x][y].append(inf)
+sum = 0
+for i in range(xx+1):
+    for j in range(yy+1):
+        sum += eridx(i, j) % 3
 
-d[0][0][torch] = 0
+print ("part1", sum)
 
-bf()
-
-for x in range (xx+7):    
-    for y in range (yy+7):    
-        print (x,y,d[x][y])
-
-
-
+dijsktra((0, 0, torch))
+print ("part2", d[xx, yy, torch])
