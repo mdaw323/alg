@@ -21,6 +21,7 @@ V = dict()
 inf = 99999
 
 d = defaultdict(lambda: inf, {})
+h = []
 
 
 def eridx(x, y):
@@ -42,13 +43,6 @@ def terrain(u):
     return eridx(u[0], u[1]) % 3
 
 
-def switch_relax(x, y, e1, e2):
-    distance = d[(x, y, e1)] + 7
-    if distance < d[(x, y, e2)]:
-        d[(x, y, e2)] = distance
-        heappush(h, (d[(x, y, e2)], (x, y, e2)))
-
-
 def cost(u, v, e):
     if e == torch and (terrain(u) == wet or terrain(v) == wet):
         return inf
@@ -58,6 +52,13 @@ def cost(u, v, e):
         return inf
     else:
         return 1
+
+
+def switch_relax(x, y, e1, e2):
+    distance = d[(x, y, e1)] + 7
+    if distance < d[(x, y, e2)]:
+        d[(x, y, e2)] = distance
+        heappush(h, (d[(x, y, e2)], (x, y, e2)))
 
 
 def relax(u, v, e):
@@ -71,7 +72,6 @@ def relax(u, v, e):
         heappush(h, (d[(vx, vy, e)], (vx, vy, e)))
     return
 
-h = []
 
 def dijsktra(s):
     d[s] = 0
