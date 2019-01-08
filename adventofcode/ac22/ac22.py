@@ -73,12 +73,14 @@ def relax(u, v, e):
     return
 
 
-def dijsktra(s):
+def dijkstra(s,end):
     d[s] = 0
     heappush(h, (d[s], s))
     while h:
         _, v = heappop(h)
-        x, y, e = v
+        if v == end:
+            break
+        x, y, e = v        
         relax((x, y), (x+1, y), e)
         relax((x, y), (x-1, y), e)
         relax((x, y), (x, y+1), e)
@@ -94,5 +96,5 @@ for i in range(xx+1):
 
 print ("part1", sum)
 
-dijsktra((0, 0, torch))
+dijkstra((0, 0, torch), (xx,yy,torch))
 print ("part2", d[xx, yy, torch])
