@@ -36,13 +36,13 @@ int main() {
 			int a = A[i];
 			int b = B[i];
 			if (p >= a && p <= b) {
-				dp[p] = dp[p-1];
-				dp[p] = min(dp[p], pwr + dp[max(0,a-pwr-1)], p);
+				dp[p] = dp[p-1];				
 			} else if (p < a) {
 				int pwr = a - p;
+				dp[p] = min(dp[p], min(pwr + dp[max(0,a-pwr-1)], p));
 			} else if ( p > b) {
-				pwr = p - b;
-				dp[p] = min(dp[p], pwr + dp[max(a-pwr-1,0)], p);
+				int pwr = p - b;
+				dp[p] = min(dp[p], min(pwr + dp[max(a-pwr-1,0)], p));
 			}
 		}
 	}
