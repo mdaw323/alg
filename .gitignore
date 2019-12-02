@@ -12,3 +12,5 @@
 *.out
 /.idea/
 *.iml
+.vscode
+__pycache__
