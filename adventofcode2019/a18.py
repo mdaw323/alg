@@ -2,7 +2,7 @@ from collections import deque
 
 M = []
 
-with open('a18b.in') as f:
+with open('a18.in') as f:
     for line in f.readlines():
         M.append([x for x in line.strip()])
 
@@ -65,17 +65,17 @@ def part1():
     d = 0
     while d < 9999:
         for tail, path in queue[d]:
-            if (tail, path) not in visited:
-                if len(path) == len(key_pos):
+            path_set = set(path)
+            key = (tail, tuple(sorted(list(path_set))))
+            if key not in visited:
+                if len(path_set) == len(key_pos):
                     print("found solution", path, d)
                     d = 9999999
                     break
-                visited.add((tail, path))
-                path_set = set(path)
+                visited.add(key)                                
                 for neighbour, distance, dependecies in E[tail]:
                     if len(dependecies - path_set) == 0:
-                        queue[d + distance].append((neighbour,
-                                                    tuple(sorted(path_set | set(neighbour)))))
+                        queue[d + distance].append((neighbour, tuple(list(path) + [neighbour])))
         d += 1
 
 
@@ -106,5 +106,5 @@ def part2():
         d += 1
         
 
-#part1()
-part2()
+part1()
+# part2()
