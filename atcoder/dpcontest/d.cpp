@@ -11,32 +11,18 @@ void err(istream_iterator<string> it, T a, Args... args) {
 using ll = long long;
 
 
-
 int main() {
-    ios::sync_with_stdio(false);
-
-    ll a,b;
-    cin >> a >> b;
-
-    int cnt = 1;
-
-    ll x = 2;
-
-    while (a>1 && b > 1 && x * x <= max(a,b)) {
-        if ( a % x == 0 && b % x == 0) {
-            cnt++;
-            while (a % x == 0)
-                a /=x;
-            while (b % x == 0)
-                b /=x;
-        }
-        x++;
-    }
-    if (a > 1 && b > 1 ) {
-        if (__gcd(a,b) >1) {
-            cnt++;
+    int N, W;
+    scanf("%d%d", &N, &W);
+    int w, v ;
+    
+    vector<ll> dp(W+1);
+    for (int i = 1; i<= N; i++) {
+        scanf("%d %d", &w, &v);
+        for (int j = W; j>=w; j--) {
+            dp[j] = max(dp[j], dp[j-w] + v);
         }
     }
-    cout << cnt;
 
+    printf("%lld\n", dp[W]);
 }
