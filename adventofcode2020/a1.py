@@ -1,12 +1,3 @@
-data = []
-cnt = [0] * 2021
-with open('a1.in') as f:
-    for line in f.readlines():
-        a = int(line.strip())
-        data.append(a)
-        cnt[a] += 1
-
-
 def counter(data: [int]):
     cnt = [0] * 2021
     for k in data:
