@@ -6,8 +6,7 @@ with open('2.in') as f:
         y = y.strip(':')
         data.append((l, u, y, z))
 
-part1 = 0
-part2 = 0
+part1 = part2 = 0
 for (lower, upper, char, password) in data:
     if lower <= password.count(char) <= upper:
         part1 += 1

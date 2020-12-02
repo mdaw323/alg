@@ -33,5 +33,5 @@ def part2(data: [int]):
         cnt[data[i]] += 1
 
 
-data = read_data('a1.in')
+data = read_data('1.in')
 print(part1(data), part2(data))
