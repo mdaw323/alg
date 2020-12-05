@@ -18,9 +18,9 @@ int main() {
 
     vector<int> K(M+1);
     vector<int> C(M+1);
-
+    
     for (int i = 1 ; i<= M; i++) {
-        cin >> C[i] >> b;
+        cin >> C[i] >> b;        
         int keys = 0;
         for (int j = 0; j < b; j++) {
             int dd;
