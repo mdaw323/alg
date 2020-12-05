@@ -1,6 +1,5 @@
 import fileinput
 lines = [s.strip() for s in fileinput.input()]
-p1 = 0
 seats = set()
 for seat in lines:
     ba = le = 0
@@ -16,9 +15,8 @@ for seat in lines:
         else:
             le = (le + ri) // 2
     seats.add(ba * 8 + le)
-    p1 = max(ba * 8 + le, p1)
 
-
+p1 = max(seats)
 p2 = 0
 for i in range(1, 999):
     if i not in seats and i-1 in seats and i+1 in seats:
