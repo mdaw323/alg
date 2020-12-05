@@ -3,6 +3,7 @@ import fileinput
 lines = [line.strip() for line in fileinput.input()]
 wi, hi = len(lines[0]), len(lines)
 
+
 def count_hashes(x0, y0):
     s2 = 0
     x = y = 0

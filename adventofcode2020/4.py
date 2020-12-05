@@ -35,40 +35,25 @@ def valid_ecl(v):
 
 
 def valid_pid(v):
-    if re.fullmatch('\\d{9}', v):
-        return True
-    else:
-        return False
+    return re.fullmatch('\\d{9}', v)
 
 
 def valid_num(v, mi, ma):
-    if re.fullmatch('\\d+', v):
-        return mi <= int(v) <= ma
-    else:
-        return False
+    return re.fullmatch('\\d+', v) and mi <= int(v) <= ma
 
 
-p1 = 0
-v_pass = []
-for password in passwords:
-    if valid_required(password):
-        p1 += 1
-        v_pass.append(password)
+def valid_password(password):
+    return bool(valid_required(password)
+                and valid_num(password['byr'], 1920, 2002)
+                and valid_num(password['iyr'], 2010, 2020)
+                and valid_num(password['eyr'], 2020, 2030)
+                and valid_hgt(password['hgt'])
+                and valid_hcl(password['hcl'])
+                and valid_ecl(password['ecl'])
+                and valid_pid(password['pid']))
 
 
-p2 = 0
-for password in passwords:
-    valid = (
-        valid_required(password)
-        and valid_num(password['byr'], 1920, 2002)
-        and valid_num(password['iyr'], 2010, 2020)
-        and valid_num(password['eyr'], 2020, 2030)
-        and valid_hgt(password['hgt'])
-        and valid_hcl(password['hcl'])
-        and valid_ecl(password['ecl'])
-        and valid_pid(password['pid'])
-    )
-    if valid:
-        p2 += 1
+p1 = sum([valid_required(p) for p in passwords])
+p2 = sum([valid_password(p) for p in passwords])
 
 print(p1, p2)
