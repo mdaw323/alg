@@ -7,19 +7,16 @@ int main()
 {
     ios::sync_with_stdio(false);
     int t, x;
-
     cin >> t;
     while (t--)
     {
         cin >> x;
-        int k = 0;
-        int s = 0;
+        int k = 0, s = 0;
         while (s < x)
         {
             k++;
             s += k;
         }
-
-        cout << ((s == x+1) ? k+1 : k) << endl;
+        cout << ((s == x + 1) ? k + 1 : k) << endl;
     }
 }
