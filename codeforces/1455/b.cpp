@@ -3,17 +3,14 @@
 using namespace std;
 using ll = long long;
 
-int main()
-{
+int main() {
     ios::sync_with_stdio(false);
     int t, x;
     cin >> t;
-    while (t--)
-    {
+    while (t--) {
         cin >> x;
         int k = 0, s = 0;
-        while (s < x)
-        {
+        while (s < x) {
             k++;
             s += k;
         }
