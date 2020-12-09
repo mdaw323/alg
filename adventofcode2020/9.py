@@ -29,15 +29,21 @@ def find_first_not_a_sum(PA):
 
 p1 = find_first_not_a_sum(25)
 
-i = j = 0
-s = numbers[0]
-while (s != p1):
-    if s > p1:
-        s -= numbers[i]
-        i += 1
-    elif s < p1:
+i = 0
+j = 1
+s = numbers[0] + numbers[1]
+while (s != p1 and j < len(numbers)):
+    if i+1 == j or s < p1:
+        if j+1 == len(numbers):
+            break
         j += 1
         s += numbers[j]
+    else:
+        s -= numbers[i]
+        i += 1
+
+assert(sum(numbers[i:j+1]) == p1)
 
 p2 = min(numbers[i:j+1]) + max(numbers[i:j+1])
+
 print(p1, p2)
