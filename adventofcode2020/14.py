@@ -1,4 +1,5 @@
 import fileinput
+from collections import defaultdict
 lines = [x.strip() for x in fileinput.input()]
 cmds = [x.split("=") for x in lines]
 
@@ -11,10 +12,9 @@ def merge_masks(adress: int, mask: list):
     return m
 
 
-mem1 = {}
-mem2 = {}
-s1 = 0
-s2 = 0
+mem1 = defaultdict(lambda _: 0)
+mem2 = defaultdict(lambda _: 0)
+s1 = s2 = 0
 or_mask = 0
 and_mask = 1
 mask = ''
@@ -34,7 +34,7 @@ for cmd, value in cmds:
                 pos = m.index('X')
                 m[pos] = r
             ad = int(''.join(m), 2)
-            s2 += v - mem2.get(ad, 0) + v
+            s2 += v - mem2.get(ad, 0)
             mem2[ad] = v
 
     elif cmd.startswith("mask"):
