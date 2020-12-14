@@ -12,8 +12,8 @@ def merge_masks(adress: int, mask: list):
     return m
 
 
-mem1 = defaultdict(lambda _: 0)
-mem2 = defaultdict(lambda _: 0)
+mem1 = defaultdict(lambda: 0)
+mem2 = defaultdict(lambda: 0)
 s1 = s2 = 0
 or_mask = 0
 and_mask = 1
@@ -22,7 +22,7 @@ for cmd, value in cmds:
     if cmd.startswith("mem"):
         v = int(value)
         p = int(cmd.strip()[4:-1])
-        s1 -= mem1.get(p, 0)
+        s1 -= mem1[p]
         mem1[p] = (v & and_mask) | or_mask
         s1 += mem1[p]
         c = mask.count('X')
@@ -34,7 +34,7 @@ for cmd, value in cmds:
                 pos = m.index('X')
                 m[pos] = r
             ad = int(''.join(m), 2)
-            s2 += v - mem2.get(ad, 0)
+            s2 += v - mem2[ad]
             mem2[ad] = v
 
     elif cmd.startswith("mask"):
