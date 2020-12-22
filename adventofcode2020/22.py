@@ -35,25 +35,19 @@ def play_game(player0:deque, player1:deque, minigame: bool, game:int):
             deck1 = deque(list(pl1)[:p1])
             winner, _ = play_game(deck0, deck1, True,game+1)
             if winner == 0:
-                pl0.append(p0)
-                pl0.append(p1)
+                pl0 += [p0,p1]
             else:
-                pl1.append(p1)
-                pl1.append(p0)        
+                pl1 += [p1,p0]       
             #minigame
         elif p0 > p1:
-            pl0.append(p0)
-            pl0.append(p1)
+            pl0 += [p0,p1]
         else:
-            pl1.append(p1)
-            pl1.append(p0)
+            pl1 += [p1,p0]
     
     if (len(pl0) > 0):
-        # print("result", game, (0, pl0))
         return (0, pl0)
     else:
-        # print("result", game, (1, pl1))
-        return (1,pl1)
+        return (1, pl1)
 
 
 def score(deck):
