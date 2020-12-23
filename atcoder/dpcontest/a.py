@@ -1,8 +1,11 @@
 n = int(input())
 H = [int(x) for x in input().strip().split()]
 
-dp = [0]+[10**9 + 7] * (n-1)
-for i in range(n):
-    for j in range(i+1, min(n, i+2+1)):
-        dp[j] = min(dp[j], dp[i] + abs(H[i] - H[j]))
-print(dp[-1])
+dp = [0] * n
+dp[1] = abs(H[1] - H[0])
+for i in range(2, n):
+    dp[i] = min(
+        dp[i-1] + abs(H[i] - H[i-1]),
+        dp[i-2] + abs(H[i] - H[i-2]),
+    )
+print(dp[n-1])
