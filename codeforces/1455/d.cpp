@@ -21,40 +21,54 @@ int diry[8] = {0, 1, -1, 0, -1, 1, -1, 1};
 #define DEBUG_V(a) for_each(ALL(a), [&](auto v) { VALUE(v); })
 #define ALL(v) v.begin(), v.end()
 
-void solve() {
-    DEBUG("solve");
+template<class A, class B> ostream& operator <<(ostream& out, const pair<A, B> &p) {
+	return out << "(" << p.x << ", " << p.y << ")";
+}
+template<class A> ostream& operator <<(ostream& out, const vector<A> &v) {
+	out << "[";
+	FOR(i, 0, v.size()) {
+		if(i) out << ", ";
+		out << v[i];
+	}
+	return out << "]";
+}
+
+
+void solve(int tt) {
+    DEBUG("solve " + to_string(tt));
     int x, n;
     cin >> n >> x;
-    vi a(n), s(n);
+    vi a(n+1), s(n);
     for (auto& i : a)
         cin >> i;
-    copy(ALL(a), s.begin());
-    SORT(s);
-
+    VALUE(a);
+    a[n] = x;
+    //copy(ALL(a), s.begin());
+    //SORT(s);
+    vvi dp(n+1, vi(n+1, 0));
+    // dp[i][j] miminalna liczba operacji wektora i..n, dla x = a[j]
     int ans = 0;
-    int i = 0;
-    for (i = 0; i < n; i++) {
-        if (s[i] < x && s[i] < a[i]) {
-            ans = -INF;
-        }
-        if (a[i] < x && s[i] > a[i]) {
-            ans++;
+
+    for (int i = n; i>=0; i--) {
+        FOR (j,0,n+1) {
+            x = a[j];
+
+            //dp[i][j] =
         }
     }
-    if (ans < 0) {
-        ans = -1;
-    } else if (ans > 0) {
-        // ans++;
-    }
+    
+
     cout << ans << endl;
 }
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
+    freopen("d.in", "r", stdin);
+    // freopen("d.res", "w", stdout);
     int t;
     cin >> t;
     while (t--) {
-        solve();
+        solve(t);
     }
 }
