@@ -1,7 +1,9 @@
 import fileinput
-lines = [list(s.strip()) for s in fileinput.input()]
 
+lines = [s.strip() for s in fileinput.input()]
 black = set()
+dx = [-1, 1, -2, 2, -1, 1]
+dy = [1, 1, 0, 0, -1, -1]
 
 
 def flip(x, y):
@@ -11,61 +13,24 @@ def flip(x, y):
         black.add((x, y))
 
 
-for line in lines:
-    i = 0
-    x, y = 0, 0
-    while i < len(line):
-        if line[i] == 'n':
-            i += 1
-            y += 1
-            if line[i] == 'e':
-                x += 1
-            elif line[i] == 'w':
-                x -= 1
-            else:
-                assert False
-        elif line[i] == 's':
-            i += 1
-            y -= 1
-            if line[i] == 'e':
-                x += 1
-            elif line[i] == 'w':
-                x -= 1
-            else:
-                assert False
-        elif line[i] == 'e':
-            x += 2
-        elif line[i] == 'w':
-            x -= 2
-        else:
-            assert False
-        i += 1
+for s in lines:
+    x = (2 * (s.count('e') - s.count('w'))
+         - s.count('ne') - s.count('se') + s.count('nw') + s.count('sw'))
+    y = s.count('n') - s.count('s')
     flip(x, y)
-
-
 print(len(black))
-
-dx = [-1, 1, -2, 2, -1, 1]
-dy = [1, 1, 0, 0, -1, -1]
 
 for day in range(100):
     cnt = {}
 
-    for k in black:
-        cnt[k] = 0
-
     for b in black:
-        bx, by = b
+        cnt[b] = 0
+    for b in black:
         for d in range(len(dx)):
-            x = bx + dx[d]
-            y = by + dy[d]
-            cnt[x, y] = cnt.get((x, y), 0) + 1
-
+            p = (b[0] + dx[d], b[1] + dy[d])
+            cnt[p] = cnt.get(p, 0) + 1
     for p, c in cnt.items():
-        x, y = p
-        if p not in black and c == 2:
-            flip(x, y)
-        elif p in black and (c == 0 or c > 2):
-            flip(x, y)
-
+        if (p not in black and c == 2
+                or p in black and (c == 0 or c > 2)):
+            flip(*p)
 print(len(black))
