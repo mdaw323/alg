@@ -3,6 +3,7 @@ lines = [list(s.strip()) for s in fileinput.input()]
 
 black = set()
 
+
 def flip(x, y):
     if (x, y) in black:
         black.discard((x, y))
