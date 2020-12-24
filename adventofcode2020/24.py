@@ -1,12 +1,13 @@
 import fileinput
 lines = [list(s.strip()) for s in fileinput.input()]
 
-seen = set()
-color = {}
-
+black = set()
 
 def flip(x, y):
-    color[(x, y)] = color.get((x, y), 0) ^ 1
+    if (x, y) in black:
+        black.discard((x, y))
+    else:
+        black.add((x, y))
 
 
 for line in lines:
@@ -40,15 +41,8 @@ for line in lines:
         i += 1
     flip(x, y)
 
-p1 = 0
-black = set()
-for k, v in color.items():
-    if v == 1:
-        p1 += 1
-        black.add(k)
 
-
-print(p1)
+print(len(black))
 
 dx = [-1, 1, -2, 2, -1, 1]
 dy = [1, 1, 0, 0, -1, -1]
@@ -56,7 +50,7 @@ dy = [1, 1, 0, 0, -1, -1]
 for day in range(100):
     cnt = {}
 
-    for k, v in color.items():
+    for k in black:
         cnt[k] = 0
 
     for b in black:
@@ -68,17 +62,9 @@ for day in range(100):
 
     for p, c in cnt.items():
         x, y = p
-        if color.get(p, 0) == 0 and c == 2:
+        if p not in black and c == 2:
             flip(x, y)
-            black.add(p)
-        elif color.get(p, 0) == 1 and (c == 0 or c > 2):
+        elif p in black and (c == 0 or c > 2):
             flip(x, y)
-            black.discard(p)
-    p1 = 0
-    for k, v in color.items():
-        if v == 1:
-            p1 += 1
-        # black.add(k)
-    assert len(black) == p1
 
 print(len(black))
