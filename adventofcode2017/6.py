@@ -7,7 +7,7 @@ dd = defaultdict(lambda: 0)
 dx = [0, 0, -1, 1]  # NSWE
 dy = [-1, 1, 0, 0]  # NSWE
 
-p1 = p2 = 0
+p = p2 = 0
 
 ll = [l.strip() for l in fileinput.input()]
 
@@ -19,31 +19,42 @@ for i in range(len(ll)):
 
 seen = set()
 seen.add(tuple(a))
-print(*a)
+
+p = p1 = 0
+part2 = False
+
 while True:
 
-    p1+=1
+    p+=1
     ma = max(a)
 
     i = a.index(ma)
 
-    # print (ma,i,r)
+
     r = a[i]
     a[i] = 0
-    print ("r",7)
-    for j in range(len(a)):
+    # print ("r",r)
+    # print (*a,i,r)
+    for j in range(r):
         jj = (j + i + 1) % len(a)
-        k = r // (len(a) - j)
-        r -= k
-        if r > 0:
-            k+=1
-            r-=1
-        print("k",r, k,jj)
-        a[jj] += k
+        a[jj] += 1
+        # k = r // (len(a) - j)
+        # r -= k
+        # if r > 0:
+            # k+=1
+            # r-=1
+        # print("k",r, k,jj)
+        # a[jj] += k
 
-    print(*a)
+    # print(*a)
     if (tuple(a) in seen):
-        break
+        if part2:
+            break
+        else:
+            p1 = p
+            p = 0
+            seen = set()
+            part2 = True
     seen.add(tuple(a))
 
-print(p1)
+print(p1, p)

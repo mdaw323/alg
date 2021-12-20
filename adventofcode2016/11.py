@@ -36,10 +36,6 @@ print (starting_state, end_state)
 mem = set()
 d = deque()
 
-for c in itertools.combinations_with_replacement([1,2,3,4],2):
-    print(c)
-
-
 def is_valid(state):
     # print(state)
     floor_gen_safe = [True for i in range(4)]
