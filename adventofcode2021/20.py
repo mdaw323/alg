@@ -20,16 +20,6 @@ for nr in range(2, len(lines)):
         if c == '#':
             dd[(i, nr-2)] = c
 
-
-def get_number(x,y):
-    s = ''
-    for i in range(len(dx)):
-        xx = x + dx[i]
-        yy = y + dy[i]
-        s += '1' if dd[(xx,yy)] == '#' else '0'
-    d = int(s,2)
-    return d
-
 def apply(default):
     global dd
     left= right= up= down = 0
@@ -39,14 +29,9 @@ def apply(default):
         up = min(up,y)
         down = max(down,y)
 
-    left -=2
-    right +=2
-    up -=2
-    down +=2
-
     new_dd = defaultdict(lambda:default)
-    for y in range(up, down+1):
-        for x in range(left, right+1):
+    for y in range(up-2, down+3):
+        for x in range(left-2, right+3):
             s = ''
             for i in range(len(dx)):
                 xx = x + dx[i]
@@ -59,18 +44,10 @@ def apply(default):
 apply('#')
 apply('.')
 
-c = 0
-for k,v in dd.items():
-    if v == '#':
-        c+=1
-print(c)
+print(list(dd.values()).count('#'))
 
 for i in range(24):
     apply('#')
     apply('.')
 
-c = 0
-for k,v in dd.items():
-    if v == '#':
-        c+=1
-print(c)
+print(list(dd.values()).count('#'))
