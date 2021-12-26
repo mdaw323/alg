@@ -1,6 +1,6 @@
 import fileinput
 import sys
-from copy import deepcopy
+from copy import copy
 from collections import deque, defaultdict
 from itertools import permutations, combinations, combinations_with_replacement
 sys.setrecursionlimit(10000000)
@@ -38,7 +38,7 @@ moves = 1
 while (moves > 0):
     step +=1
     moves = 0
-    M2 = deepcopy(M)
+    M2 = copy(M)
     for y in range(ly):
         for x in range(lx):
             xx = (x+1) % lx
@@ -47,7 +47,7 @@ while (moves > 0):
                 M2[(x,y)] = '.'
                 moves +=1
     M = M2
-    M2 = deepcopy(M)
+    M2 = copy(M)
     for x in range(lx):
         for y in range(ly):
             yy = (y+1) % ly
